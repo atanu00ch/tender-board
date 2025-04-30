@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderX | TenderAI New Scan Setup</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        @media (max-width: 640px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            ring: 2px solid #2F80ED;
+            border-color: #2F80ED;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .checkbox-label {
+            margin-left: 0.75rem;
+            font-size: 0.875rem;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 34px;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2F80ED;
+        }
+        input:checked + .slider:before {
+            transform: translateX(16px);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #1a56db;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+        .region-card {
+            background-color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .region-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .region-title {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .country-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .country-name {
+            display: flex;
+            align-items: center;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            margin-left: 0.5rem;
+        }
+        .badge-green {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .alert-blue {
+            background-color: #eff6ff;
+            border-left: 4px solid #60a5fa;
+            color: #1e40af;
+        }
+        .alert-yellow {
+            background-color: #fffbeb;
+            border: 1px solid #fbbf24;
+            color: #92400e;
+        }
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Tender Scan</h1>
+        <p class="subtitle">Configure scanning parameters to find new tender opportunities</p>
+        
+        <!-- Scan Details Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Scan Details</h2>
+                <p class="card-description">Name and schedule for your tender scan</p>
+            </div>
+            <div class="card-body">
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="scan-name">Scan Name</label>
+                        <input type="text" id="scan-name" value="April 2025 AI & Tech Tenders">
+                        <p class="card-description">A descriptive name to identify this scan</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="schedule">Schedule</label>
+                        <select id="schedule">
+                            <option selected>Run immediately</option>
+                            <option>Daily at 8:00 AM</option>
+                            <option>Weekly on Monday</option>
+                            <option>Custom schedule</option>
+                        </select>
+                        <p class="card-description">When and how often to run this scan</p>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="save-template" checked>
+                        <div class="checkbox-label">
+                            <label for="save-template">Save as template</label>
+                            <p class="card-description">Save these scan parameters as a template for future use</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Data Sources Card -->
+        <div class="card">
+            <div class="card-header">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2 class="card-title">Data Sources</h2>
+                        <p class="card-description">Select which tender sources to scan</p>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span style="margin-right: 8px; font-size: 0.875rem; color: #6b7280;">Recommended sources enabled</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                    <!-- Asia Pacific Region -->
+                    <div class="region-card">
+                        <div class="region-header">
+                            <h3 class="region-title">Asia Pacific</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span style="margin-right: 8px; font-size: 0.75rem; color: #6b7280;">28 sources</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" checked>
+                                    <label style="margin-left: 8px;">Singapore</label>
+                                    <span class="badge badge-green">Recommended</span>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">12 portals</span>
+                            </div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" checked>
+                                    <label style="margin-left: 8px;">Malaysia</label>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">6 portals</span>
+                            </div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" checked>
+                                    <label style="margin-left: 8px;">India</label>
+                                    <span class="badge badge-green">Recommended</span>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">10 portals</span>
+                            </div>
+                            <button style="color: #2F80ED; font-size: 0.875rem; background: none; border: none; cursor: pointer; margin-top: 0.5rem;">+ Add more countries</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Middle East Region -->
+                    <div class="region-card">
+                        <div class="region-header">
+                            <h3 class="region-title">Middle East</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span style="margin-right: 8px; font-size: 0.75rem; color: #6b7280;">14 sources</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" checked>
+                                    <label style="margin-left: 8px;">UAE</label>
+                                    <span class="badge badge-green">Recommended</span>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">5 portals</span>
+                            </div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" checked>
+                                    <label style="margin-left: 8px;">Qatar</label>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">3 portals</span>
+                            </div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" checked>
+                                    <label style="margin-left: 8px;">Saudi Arabia</label>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">6 portals</span>
+                            </div>
+                            <button style="color: #2F80ED; font-size: 0.875rem; background: none; border: none; cursor: pointer; margin-top: 0.5rem;">+ Add more countries</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Europe Region (Disabled) -->
+                    <div class="region-card" style="opacity: 0.5;">
+                        <div class="region-header">
+                            <h3 class="region-title">Europe</h3>
+                            <div style="display: flex; align-items: center;">
+                                <span style="margin-right: 8px; font-size: 0.75rem; color: #6b7280;">5 sources</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" disabled>
+                                    <label style="margin-left: 8px;">United Kingdom</label>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">3 portals</span>
+                            </div>
+                            <div class="country-item">
+                                <div class="country-name">
+                                    <input type="checkbox" disabled>
+                                    <label style="margin-left: 8px;">Germany</label>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #6b7280;">2 portals</span>
+                            </div>
+                            <button style="color: #2F80ED; font-size: 0.875rem; background: none; border: none; cursor: pointer; margin-top: 0.5rem;">+ Add more countries</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add New Region button -->
+                <div style="border: 2px dashed #d1d5db; border-radius: 0.5rem; padding: 1rem; display: flex; align-items: center; justify-content: center; margin-top: 1.5rem; cursor: pointer;">
+                    <button style="display: flex; align-items: center; color: #2F80ED; background: none; border: none; font-size: 1rem; font-weight: 500;">
+                        <svg style="margin-right: 0.5rem; height: 1.25rem; width: 1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Add New Region
+                    </button>
+                </div>
+                
+                <!-- AI Recommendations -->
+                <div class="alert alert-blue" style="margin-top: 1.5rem;">
+                    <div style="display: flex;">
+                        <svg style="flex-shrink: 0; height: 1.25rem; width: 1.25rem; color: #60a5fa;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <div style="margin-left: 0.75rem;">
+                            <p style="font-size: 0.875rem; color: #1e40af;">
+                                <span style="font-weight: 500;">AI Recommendation:</span> Based on your company profile and recent tender history, 5 additional tender sources have been recommended (Singapore, India, UAE) with high matching probability.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scan Criteria Configuration -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Scan Criteria</h2>
+                <p class="card-description">Define what types of tenders to look for and how to filter results</p>
+            </div>
+            <div class="card-body">
+                <div class="grid">
+                    <!-- Keywords & Industries -->
+                    <div>
+                        <div class="form-group">
+                            <label for="keywords">Keywords</label>
+                            <input type="text" id="keywords" value="AI, machine learning, digital transformation, software development, cloud solutions, cybersecurity, chatbot, telegram">
+                            <p class="card-description">AI will prioritize tenders containing these keywords</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="industries">Target Industries</label>
+                            <select id="industries" multiple>
+                                <option selected>Information Technology</option>
+                                <option selected>Telecommunications</option>
+                                <option selected>Government Services</option>
+                                <option>Healthcare</option>
+                                <option>Education</option>
+                                <option>Transportation</option>
+                                <option>Energy & Utilities</option>
+                                <option>Financial Services</option>
+                            </select>
+                            <p class="card-description">Select industries to include in your scan</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="excluded-terms">Excluded Terms</label>
+                            <input type="text" id="excluded-terms" value="construction, hardware maintenance, physical infrastructure">
+                            <p class="card-description">Tenders containing these terms will be filtered out</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Value Range & Timing -->
+                    <div>
+                        <div class="form-group">
+                            <label>Tender Value Range</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div style="position: relative;">
+                                    <div style="position: absolute; left: 0.75rem; top: 0.5rem; color: #6b7280;">$</div>
+                                    <input type="text" id="min-value" value="100,000" style="padding-left: 1.75rem;">
+                                </div>
+                                <div style="position: relative;">
+                                    <div style="position: absolute; left: 0.75rem; top: 0.5rem; color: #6b7280;">$</div>
+                                    <input type="text" id="max-value" value="5,000,000" style="padding-left: 1.75rem;">
+                                </div>
+                            </div>
+                            <p class="card-description">Only scan for tenders within this value range</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deadline-range">Submission Deadline Range</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <select id="min-deadline">
+                                    <option>Any</option>
+                                    <option selected>7 days</option>
+                                    <option>14 days</option>
+                                    <option>30 days</option>
+                                    <option>60 days</option>
+                                </select>
+                                <select id="max-deadline">
+                                    <option>Any</option>
+                                    <option>14 days</option>
+                                    <option>30 days</option>
+                                    <option selected>90 days</option>
+                                    <option>180 days</option>
+                                </select>
+                            </div>
+                            <p class="card-description">Filter by submission deadline timing</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Timing Parameters</label>
+                            <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="new-tenders" checked>
+                                    <div class="checkbox-label">
+                                        <label for="new-tenders">New tenders released today</label>
+                                    </div>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="ending-soon" checked>
+                                    <div class="checkbox-label">
+                                        <label for="ending-soon">Tenders ending submission in 7 days</label>
+                                    </div>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="relevant-all" checked>
+                                    <div class="checkbox-label">
+                                        <label for="relevant-all">All relevant tenders in the system</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Company Profile & Matching Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Matching Settings</h2>
+                <p class="card-description">Configure how TenderAI evaluates and prioritizes tenders</p>
+            </div>
+            <div class="card-body">
+                <div class="grid">
+                    <!-- Left column -->
+                    <div>
+                        <div class="form-group">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <label for="matching-threshold">Matching Threshold</label>
+                                <span style="font-size: 0.875rem; color: #6b7280;">75%</span>
+                            </div>
+                            <input type="range" id="matching-threshold" min="50" max="100" value="75" style="width: 100%;">
+                            <p class="card-description">Only tenders above this match percentage will be considered</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company-profile">Company Profile for Matching</label>
+                            <select id="company-profile">
+                                <option selected>SpiderX Technologies (Primary)</option>
+                                <option>SpiderX Solutions Pte Ltd</option>
+                                <option>SpiderX International Ltd</option>
+                                <option>+ Create New Profile</option>
+                            </select>
+                            <p class="card-description">AI will match tenders against this company profile</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ai-assistance">AI Assistance Level</label>
+                            <select id="ai-assistance">
+                                <option>Basic (Scan Only)</option>
+                                <option>Standard (Scan + Initial Analysis)</option>
+                                <option selected>Advanced (Scan + Full Analysis + Recommendations)</option>
+                                <option>Complete (Scan + Analysis + Auto-Action)</option>
+                            </select>
+                            <p class="card-description">Level of AI involvement in the tender process</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right column -->
+                    <div>
+                        <div class="form-group">
+                            <label>Prioritization Factors</label>
+                            <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; align-items: center;">
+                                        <input type="checkbox" id="factor-value" checked>
+                                        <label for="factor-value" style="margin-left: 0.5rem;">Contract Value</label>
+                                    </div>
+                                    <select id="weight-value" style="width: 6rem;">
+                                        <option>Low</option>
+                                        <option>Medium</option>
+                                        <option selected>High</option>
+                                    </select>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; align-items: center;">
+                                        <input type="checkbox" id="factor-complexity" checked>
+                                        <label for="factor-complexity" style="margin-left: 0.5rem;">Project Complexity</label>
+                                    </div>
+                                    <select id="weight-complexity" style="width: 6rem;">
+                                        <option>Low</option>
+                                        <option selected>Medium</option>
+                                        <option>High</option>
+                                    </select>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; align-items: center;">
+                                        <input type="checkbox" id="factor-competition" checked>
+                                        <label for="factor-competition" style="margin-left: 0.5rem;">Expected Competition</label>
+                                    </div>
+                                    <select id="weight-competition" style="width: 6rem;">
+                                        <option>Low</option>
+                                        <option selected>Medium</option>
+                                        <option>High</option>
+                                    </select>
+                                </div>
+                                
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; align-items: center;">
+                                        <input type="checkbox" id="factor-timeline" checked>
+                                        <label for="factor-timeline" style="margin-left: 0.5rem;">Timeline Feasibility</label>
+                                    </div>
+                                    <select id="weight-timeline" style="width: 6rem;">
+                                        <option>Low</option>
+                                        <option>Medium</option>
+                                        <option selected>High</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="card-description">Adjust how AI weighs different factors when scoring tenders</p>
+                        </div>
+                        
+                        <div class="alert" style="background-color: #eff6ff; padding: 1rem; border-radius: 0.375rem;">
+                            <div style="display: flex;">
+                                <svg style="height: 1.25rem; width: 1.25rem; color: #60a5fa;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                <div style="margin-left: 0.75rem;">
+                                    <h3 style="font-size: 0.875rem; font-weight: 500; color: #1e40af;">AI Company Profile Analysis</h3>
+                                    <div style="margin-top: 0.5rem; font-size: 0.875rem; color: #3b82f6;">
+                                        <p>Based on your company profile, your strongest competitive advantages are in AI integration, cybersecurity, and cloud solutions. These areas will be given priority in the matching algorithm.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Agent Configuration -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title" style="display: flex; align-items: center;">
+                    <svg style="margin-right: 0.5rem; height: 1.25rem; width: 1.25rem; color: #2F80ED;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    AI Agent Configuration
+                </h2>
+                <p class="card-description">Configure how the AI agent handles discovered tenders</p>
+            </div>
+            <div class="card-body">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-analyze" checked>
+                        <div class="checkbox-label">
+                            <label for="auto-analyze">Automatically analyze matching tenders</label>
+                            <p style="color: #6b7280;">AI will automatically analyze tenders that match above the threshold</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-summarize" checked>
+                        <div class="checkbox-label">
+                            <label for="auto-summarize">Create executive summaries</label>
+                            <p style="color: #6b7280;">AI will create executive summaries with key tender details</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-checklist" checked>
+                        <div class="checkbox-label">
+                            <label for="auto-checklist">Generate submission checklists</label>
+                            <p style="color: #6b7280;">AI will create comprehensive checklists for tender requirements</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-notify" checked>
+                        <div class="checkbox-label">
+                            <label for="auto-notify">Notify team members</label>
+                            <p style="color: #6b7280;">Send notifications to relevant team members based on tender type</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-tasks" checked>
+                        <div class="checkbox-label">
+                            <label for="auto-tasks">Create initial task assignments</label>
+                            <p style="color: #6b7280;">AI will create and assign initial tasks based on tender requirements</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-shortlist">
+                        <div class="checkbox-label">
+                            <label for="auto-shortlist">Automatically shortlist high-matching tenders</label>
+                            <p style="color: #6b7280;">Tenders with >85% match will be automatically shortlisted for pursuit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-generate">
+                        <div class="checkbox-label">
+                            <label for="auto-generate">Auto-generate initial document templates</label>
+                            <p style="color: #6b7280;">AI will create baseline document templates for shortlisted tenders</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem; background-color: rgba(47, 128, 237, 0.05); border: 1px solid #2F80ED; border-radius: 0.375rem; padding: 1rem;">
+                    <div style="display: flex;">
+                        <svg style="height: 1.25rem; width: 1.25rem; color: #2F80ED;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <div style="margin-left: 0.75rem;">
+                            <h3 style="font-size: 0.875rem; font-weight: 500; color: #111827;">AI Agent Recommendation</h3>
+                            <div style="margin-top: 0.5rem; font-size: 0.875rem; color: #4b5563;">
+                                <p>Based on your company profile and past tender history, enabling "Auto-generate initial document templates" is recommended for your AI Feature Enhancement tender focus. This could save your team approximately 18 hours of work per tender.</p>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-primary">Apply Recommendation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notification Settings -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Notification Settings</h2>
+                <p class="card-description">Configure how you receive notifications about scan results</p>
+            </div>
+            <div class="card-body">
+                <div class="grid">
+                    <!-- Notification methods -->
+                    <div>
+                        <fieldset>
+                            <legend style="font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 1rem;">Notification Methods</legend>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-email" checked>
+                                    <div class="checkbox-label" style="width: 100%;">
+                                        <label for="notify-email">Email</label>
+                                        <input type="email" id="email" placeholder="morgan@spiderx.ai" value="morgan@spiderx.ai" style="margin-top: 0.25rem;">
+                                    </div>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-slack" checked>
+                                    <div class="checkbox-label" style="width: 100%;">
+                                        <label for="notify-slack">Slack</label>
+                                        <select id="slack-channel" style="margin-top: 0.25rem;">
+                                            <option selected>#tender-opportunities</option>
+                                            <option>#business-development</option>
+                                            <option>#general</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-app" checked>
+                                    <div class="checkbox-label">
+                                        <label for="notify-app">In-App Notification</label>
+                                        <p style="color: #6b7280;">Send notifications to all users with 'Tender Scanner' permissions</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-sms">
+                                    <div class="checkbox-label" style="width: 100%;">
+                                        <label for="notify-sms">SMS</label>
+                                        <input type="tel" id="phone" placeholder="+1 (555) 123-4567" style="margin-top: 0.25rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <!-- Notification rules -->
+                    <div>
+                        <fieldset>
+                            <legend style="font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 1rem;">Notification Rules</legend>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="checkbox-group">
+                                    <input type="radio" id="notify-all" name="notify-rule">
+                                    <div class="checkbox-label">
+                                        <label for="notify-all">All matching tenders</label>
+                                        <p style="color: #6b7280;">Get notified about every tender that meets your criteria</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="radio" id="notify-high" name="notify-rule" checked>
+                                    <div class="checkbox-label">
+                                        <label for="notify-high">High-matching tenders only</label>
+                                        <p style="color: #6b7280;">Only get notified for tenders with >80% match</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="radio" id="notify-summary" name="notify-rule">
+                                    <div class="checkbox-label">
+                                        <label for="notify-summary">Daily summary only</label>
+                                        <p style="color: #6b7280;">Receive a single daily digest of all matching tenders</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="notify-urgent" checked>
+                                    <div class="checkbox-label">
+                                        <label for="notify-urgent">Urgent notifications for high-value opportunities</label>
+                                        <p style="color: #6b7280;">Send immediate alerts for tenders over $1M with >90% match</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Final Actions -->
+        <div class="actions">
+            <button class="btn btn-secondary">
+                Save as Draft
+            </button>
+            <button class="btn btn-primary">
+                <svg style="margin-right: 0.5rem; height: 1rem; width: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Run Scan Now
+            </button>
+        </div>
+    </div>
+</body>
+</html>

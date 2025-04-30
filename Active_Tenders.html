@@ -1,0 +1,314 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderX | TenderAI Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .bg-spiderx { background-color: #121D33; }
+        .text-spiderx { color: #121D33; }
+        .bg-spiderx-accent { background-color: #2F80ED; }
+        .text-spiderx-accent { color: #2F80ED; }
+        .hover-translate { transition: transform 0.2s; }
+        .hover-translate:hover { transform: translateY(-2px); }
+        .pulse-alert { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { background-color: rgba(239, 68, 68, 0.5); }
+            50% { background-color: rgba(239, 68, 68, 0.2); }
+            100% { background-color: rgba(239, 68, 68, 0.5); }
+        }
+        .blink { animation: blink 1.5s infinite; }
+        @keyframes blink {
+            0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; }
+        }
+        .live-dot { position: relative; }
+        .live-dot::before {
+            content: ""; position: absolute; top: -2px; right: -2px;
+            width: 8px; height: 8px; border-radius: 50%; background-color: #10B981;
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <div class="flex flex-col w-full flex-1 overflow-hidden">
+            <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                <div class="flex-1 px-4 flex justify-between">
+                    <div class="flex-1 flex">
+                        <div class="max-w-2xl w-full">
+                            <div class="relative text-spiderx-accent focus-within:text-gray-600">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                                    <svg class="h-5 w-5 blink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div class="block w-full pl-10 pr-3 py-2 rounded-md text-sm font-medium text-gray-700">
+                                    AI Agent is actively monitoring 5 tenders
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-spiderx-accent focus:outline-none focus:text-spiderx-accent">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </button>
+                        <div class="ml-3 relative">
+                            <button class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true">
+                                <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-spiderx">
+                                    <span class="font-medium leading-none text-white">MS</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+                <div class="pt-2 pb-6 md:py-6">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Active Tenders</h1>
+                        <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            <!-- Tender Card 1 -->
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <div class="flex items-center">
+                                        <span class="h-2 w-2 rounded-full bg-red-500 mr-2"></span>
+                                        <h3 class="text-lg font-medium text-gray-900">AI Feature Enhancement Tender (SG-83917309)</h3>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500">Due in 3 days • Submission deadline: Oct 28, 2024</p>
+                                    <div class="mt-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm font-medium text-gray-700">Overall Progress</span>
+                                            <span class="text-sm text-gray-500">65%</span>
+                                        </div>
+                                        <div class="mt-1 h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                            <div class="h-2 bg-spiderx-accent rounded-full" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Critical Tasks</p>
+                                            <p class="mt-1 text-lg font-semibold text-red-600">2</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">AI Interventions</p>
+                                            <p class="mt-1 text-lg font-semibold text-blue-600">5</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Completion Probability</p>
+                                            <p class="mt-1 text-lg font-semibold text-green-600">78%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Team Responsiveness</p>
+                                            <p class="mt-1 text-lg font-semibold text-yellow-600">Medium</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6">
+                                        <a href="AI_Agent_Action_Center.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">View Action Center</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tender Card 2 -->
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <div class="flex items-center">
+                                        <span class="h-2 w-2 rounded-full bg-yellow-500 mr-2"></span>
+                                        <h3 class="text-lg font-medium text-gray-900">Security Upgrade Tender (SG-83917410)</h3>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500">Due in 5 days • Submission deadline: Oct 30, 2024</p>
+                                    <div class="mt-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm font-medium text-gray-700">Overall Progress</span>
+                                            <span class="text-sm text-gray-500">80%</span>
+                                        </div>
+                                        <div class="mt-1 h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                            <div class="h-2 bg-spiderx-accent rounded-full" style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Critical Tasks</p>
+                                            <p class="mt-1 text-lg font-semibold text-red-600">1</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">AI Interventions</p>
+                                            <p class="mt-1 text-lg font-semibold text-blue-600">3</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Completion Probability</p>
+                                            <p class="mt-1 text-lg font-semibold text-green-600">85%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Team Responsiveness</p>
+                                            <p class="mt-1 text-lg font-semibold text-green-600">High</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6">
+                                        <a href="AI_Agent_Action_Center.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">View Action Center</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tender Card 3 -->
+                            <div class="bg-white overflow-hidden shadow rounded-lg">
+                                <div class="px-4 py-5 sm:p-6">
+                                    <div class="flex items-center">
+                                        <span class="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
+                                        <h3 class="text-lg font-medium text-gray-900">Compliance Audit Tender (SG-83917511)</h3>
+                                    </div>
+                                    <p class="mt-1 text-sm text-gray-500">Due in 7 days • Submission deadline: Nov 1, 2024</p>
+                                    <div class="mt-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm font-medium text-gray-700">Overall Progress</span>
+                                            <span class="text-sm text-gray-500">90%</span>
+                                        </div>
+                                        <div class="mt-1 h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                                            <div class="h-2 bg-spiderx-accent rounded-full" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Critical Tasks</p>
+                                            <p class="mt-1 text-lg font-semibold text-red-600">0</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">AI Interventions</p>
+                                            <p class="mt-1 text-lg font-semibold text-blue-600">2</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Completion Probability</p>
+                                            <p class="mt-1 text-lg font-semibold text-green-600">95%</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">Team Responsiveness</p>
+                                            <p class="mt-1 text-lg font-semibold text-green-600">High</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6">
+                                        <a href="AI_Agent_Action_Center.html" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">View Action Center</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Recent AI Agent Activity -->
+                        <div class="mt-8 bg-white shadow sm:rounded-lg">
+                            <div class="px-4 py-5 sm:p-6">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">Recent AI Agent Activity</h3>
+                                <div class="mt-4 flow-root">
+                                    <ul class="-mb-8">
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <span class="h-8 w-8 rounded-full bg-spiderx-accent flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                        <div>
+                                                            <p class="text-sm text-gray-900">Escalated executive summary to management for tender SG-83917309</p>
+                                                            <p class="text-xs text-gray-500">2 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="relative pb-8">
+                                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                        <div>
+                                                            <p class="text-sm text-gray-900">Generated compliance checklist for tender SG-83917511</p>
+                                                            <p class="text-xs text-gray-500">4 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="relative">
+                                                <div class="relative flex space-x-3">
+                                                    <div>
+                                                        <span class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center ring-8 ring-white">
+                                                            <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                        <div>
+                                                            <p class="text-sm text-gray-900">Scheduled review meeting for tender SG-83917410</p>
+                                                            <p class="text-xs text-gray-500">6 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderX | TenderAI Agent Action Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .bg-spiderx { background-color: #121D33; }
+        .text-spiderx { color: #121D33; }
+        .bg-spiderx-accent { background-color: #2F80ED; }
+        .text-spiderx-accent { color: #2F80ED; }
+        .hover-translate { transition: transform 0.2s; }
+        .hover-translate:hover { transform: translateY(-2px); }
+        .pulse-alert { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { background-color: rgba(239, 68, 68, 0.5); }
+            50% { background-color: rgba(239, 68, 68, 0.2); }
+            100% { background-color: rgba(239, 68, 68, 0.5); }
+        }
+        .blink { animation: blink 1.5s infinite; }
+        @keyframes blink {
+            0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; }
+        }
+        .live-dot { position: relative; }
+        .live-dot::before {
+            content: ""; position: absolute; top: -2px; right: -2px;
+            width: 8px; height: 8px; border-radius: 50%; background-color: #10B981;
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Main content -->
+        <div class="flex flex-col w-full flex-1 overflow-hidden">
+            <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                <div class="flex-1 px-4 flex justify-between">
+                    <div class="flex-1 flex">
+                        <div class="max-w-2xl w-full">
+                            <div class="relative text-spiderx-accent focus-within:text-gray-600">
+                                <div class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                                    <svg class="h-5 w-5 blink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div class="block w-full pl-10 pr-3 py-2 rounded-md text-sm font-medium text-gray-700">
+                                    AI Agent actively working on: AI Feature Enhancement Tender (SG-83917309) • Due in 3 days
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-spiderx-accent focus:outline-none focus:text-spiderx-accent">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </button>
+                        <div class="ml-3 relative">
+                            <button class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true">
+                                <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-spiderx">
+                                    <span class="font-medium leading-none text-white">MS</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+                <div class="pt-2 pb-6 md:py-6">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">AI Agent Action Center</h1>
+                                <p class="mt-1 text-sm text-gray-500">Your TenderAI agent is actively driving tender completion</p>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="relative inline-flex mr-4">
+                                    <span class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>Submission Due: 3 Days
+                                    </span>
+                                    <span class="absolute top-0 right-0 -mt-1 -mr-1 flex h-3 w-3">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+                                    </span>
+                                </span>
+                                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">Configure AI Behavior</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Panels -->
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mt-6">
+                        <!-- Active Communications Panel -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                                        <svg class="mr-2 h-5 w-5 text-spiderx-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                        </svg>Active Communications
+                                    </h3>
+                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Your AI agent is actively communicating with team members</p>
+                                </div>
+                                <div class="inline-flex items-center px-3 py-1 rounded bg-green-100 text-green-800 text-sm font-medium">
+                                    <svg class="mr-1.5 h-2.5 w-2.5 text-green-600" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" /></svg>Live Now
+                                </div>
+                            </div>
+                            <div class="p-6 space-y-6">
+                                <div class="bg-red-50 border-l-4 border-red-500 p-4 pulse-alert">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-red-800">High-priority email sent <span class="font-bold">3 minutes ago</span> to Sarah Lin (sarah.lin@spiderx.ai)</p>
+                                            <div class="mt-2 text-sm text-red-700">
+                                                <p>"URGENT: Executive Summary approval needed by EOD - Tender SG-83917309"</p>
+                                            </div>
+                                            <div class="mt-4 -mx-2 -my-1.5 flex">
+                                                <button type="button" class="px-2 py-1.5 rounded-md text-sm font-medium text-red-800 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600">View Email</button>
+                                                <button type="button" class="ml-3 px-2 py-1.5 rounded-md text-sm font-medium text-red-800 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600">Follow Up Call</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <svg class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-yellow-800">Reminder message sent <span class="font-bold">17 minutes ago</span> to Daniel Kim (daniel.kim@spiderx.ai)</p>
+                                            <div class="mt-2 text-sm text-yellow-700">
+                                                <p>"REMINDER: Technical Architecture Document needs final review - Due tomorrow"</p>
+                                            </div>
+                                            <div class="mt-2 flex items-center">
+                                                <svg class="text-yellow-600 h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                                <span class="text-xs text-yellow-600">Seen 5 minutes ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <svg class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-blue-800">Calendar invitation sent <span class="font-bold">42 minutes ago</span> to Technical Team</p>
+                                            <div class="mt-2 text-sm text-blue-700">
+                                                <p>"CRITICAL: Final Technical Review Meeting - Tomorrow at 10:00 AM"</p>
+                                            </div>
+                                            <div class="mt-2 flex space-x-2">
+                                                <div class="flex items-center text-xs text-blue-600">
+                                                    <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>Accepted: 4
+                                                </div>
+                                                <div class="flex items-center text-xs text-yellow-600">
+                                                    <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>Pending: 2
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-green-50 border-l-4 border-green-400 p-4">
+                                    <div class="flex">
+                                        <div class="flex-shrink-0">
+                                            <svg class="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div class="ml-3">
+                                            <p class="text-sm font-medium text-green-800">Task notification sent <span class="font-bold">1 hour ago</span> to all team members</p>
+                                            <div class="mt-2 text-sm text-green-700">
+                                                <p>"ACTION REQUIRED: Please review your assigned tasks for SG-83917309 tender submission"</p>
+                                            </div>
+                                            <div class="mt-2 flex items-center">
+                                                <svg class="text-green-600 h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span class="text-xs text-green-600">7/8 team members viewed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 px-6 pb-6">
+                                <h4 class="text-sm font-medium text-gray-500">Next Scheduled Communications</h4>
+                                <ul class="mt-2 divide-y divide-gray-200">
+                                    <li class="py-3 flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                            <span class="ml-2 text-sm text-gray-600">Follow-up email to Sarah Lin</span>
+                                        </div>
+                                        <span class="text-sm text-red-600 font-medium">In 2 hours</span>
+                                    </li>
+                                    <li class="py-3 flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M5 3a2 2 0 00-2 2v1c0 8.284 6.716 15 15 15h1a2 2 0 002-2v-3.28a1 1 0 00-.684-.948l-4.493-1.498a1 1 0 00-1.21.502l-1.13 2.257a11.042 11.042 0 01-5.516-5.517l2.257-1.128a1 1 0 00.502-1.21L9.228 3.683A1 1 0 008.279 3H5z" />
+                                            </svg>
+                                            <span class="ml-2 text-sm text-gray-600">Executive escalation call to Thomas Smith</span>
+                                        </div>
+                                        <span class="text-sm text-orange-600 font-medium">Tomorrow, 9:00 AM</span>
+                                    </li>
+                                    <li class="py-3 flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                            </svg>
+                                            <span class="ml-2 text-sm text-gray-600">Final submission reminder to all team members</span>
+                                        </div>
+                                        <span class="text-sm text-gray-600">Day before deadline</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Task Monitoring & Intervention -->
+                        <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
+                            <!-- Critical Task Status -->
+                            <div class="bg-white rounded-lg shadow">
+                                <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                                        <svg class="mr-2 h-5 w-5 text-spiderx-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                        </svg>Critical Task Monitoring
+                                    </h3>
+                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">AI Agent is monitoring and intervening on high-priority tasks</p>
+                                </div>
+                                <div class="px-4 py-5 sm:p-6">
+                                    <ul class="divide-y divide-gray-200">
+                                        <li class="py-4">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                                                        <span class="font-medium text-red-600">SL</span>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Executive Summary</div>
+                                                        <div class="text-sm text-gray-500">Assigned to: Sarah Lin • Due: Today, 6:00 PM</div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-red-100 text-red-800 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">Critical Risk</div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <div class="relative pt-1">
+                                                    <div class="flex mb-2 items-center justify-between">
+                                                        <div>
+                                                            <span class="text-xs font-semibold inline-block text-red-600">Stuck at 90% - No activity for 18 hours</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-red-200">
+                                                        <div style="width:90%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <h4 class="text-xs font-medium text-gray-500 uppercase tracking-wide">AI Agent Interventions</h4>
+                                                    <ul class="mt-2 space-y-2">
+                                                        <li class="text-sm text-gray-600 flex items-center">
+                                                            <svg class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                            </svg>Email sent (2 hours ago)
+                                                        </li>
+                                                        <li class="text-sm text-gray-600 flex items-center">
+                                                            <svg class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                            </svg>Slack notification sent (1 hour ago)
+                                                        </li>
+                                                        <li class="text-sm text-gray-600 flex items-center font-medium text-spiderx-accent">
+                                                            <svg class="h-4 w-4 text-spiderx-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                            </svg>Management escalation in progress
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="py-4">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                                                        <span class="font-medium text-yellow-600">MJ</span>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">Security Assessment Document</div>
+                                                        <div class="text-sm text-gray-500">Assigned to: Michael Johnson • Due: Tomorrow, 12:00 PM</div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-yellow-100 text-yellow-800 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">At Risk</div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <div class="relative pt-1">
+                                                    <div class="flex mb-2 items-center justify-between">
+                                                        <div>
+                                                            <span class="text-xs font-semibold inline-block text-yellow-600">Progress slowed - 60% complete</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-yellow-200">
+                                                        <div style="width:60%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-yellow-500"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <h4 class="text-xs font-medium text-gray-500 uppercase tracking-wide">AI Agent Interventions</h4>
+                                                    <ul class="mt-2 space-y-2">
+                                                        <li class="text-sm text-gray-600 flex items-center">
+                                                            <svg class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                            </svg>Progress check message sent (3 hours ago)
+                                                        </li>
+                                                        <li class="text-sm text-gray-600 flex items-center font-medium text-spiderx-accent">
+                                                            <svg class="h-4 w-4 text-spiderx-accent mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                            </svg>AI is preparing template to accelerate completion
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Agent Automated Actions -->
+                            <div class="bg-white rounded-lg shadow">
+                                <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                                        <svg class="mr-2 h-5 w-5 text-spiderx-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                        </svg>Agent Automated Actions
+                                    </h3>
+                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Actions taken by AI to ensure tender completion</p>
+                                </div>
+                                <div class="px-4 py-5 sm:p-6">
+                                    <div class="flow-root">
+                                        <ul class="-mb-8">
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                                <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-900">AI generated AICG compliance checklist template</p>
+                                                                <p class="text-xs text-gray-500 mt-0.5">Auto-filled with known Singapore security requirements</p>
+                                                            </div>
+                                                            <div class="text-right text-xs text-gray-500 whitespace-nowrap">
+                                                                <span>10 minutes ago</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                                <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-900">AI escalated Executive Summary blocker to management</p>
+                                                                <p class="text-xs text-gray-500 mt-0.5">Email sent to Morgan Stanley (CTO) with urgent action request</p>
+                                                            </div>
+                                                            <div class="text-right text-xs text-gray-500 whitespace-nowrap">
+                                                                <span>25 minutes ago</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-spiderx-accent flex items-center justify-center ring-8 ring-white">
+                                                                <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-900">AI created detailed technical document outline</p>
+                                                                <p class="text-xs text-gray-500 mt-0.5">Auto-populated from existing company documentation</p>
+                                                            </div>
+                                                            <div class="text-right text-xs text-gray-500 whitespace-nowrap">
+                                                                <span>1 hour ago</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center ring-8 ring-white">
+                                                                <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-900">AI scheduled final review meeting</p>
+                                                                <p class="text-xs text-gray-500 mt-0.5">Calendar invites sent to all stakeholders</p>
+                                                            </div>
+                                                            <div class="text-right text-xs text-gray-500 whitespace-nowrap">
+                                                                <span>2 hours ago</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            
+                                            <li>
+                                                <div class="relative">
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
+                                                                <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-900">AI detected missing compliance document</p>
+                                                                <p class="text-xs text-gray-500 mt-0.5">Created task and assigned to Nina Kaur with high priority</p>
+                                                            </div>
+                                                            <div class="text-right text-xs text-gray-500 whitespace-nowrap">
+                                                                <span>4 hours ago</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-6">
+                                        <button type="button" class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                            View All Automated Actions
+                                            <svg class="ml-1 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Overall Tender Progress -->
+                        <div class="mt-8 bg-white shadow sm:rounded-lg">
+                            <div class="px-4 py-5 sm:p-6">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                                    <svg class="mr-2 h-5 w-5 text-spiderx-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                    </svg>Overall Tender Progress
+                                </h3>
+                                <div class="mt-4">
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center">
+                                            <span class="text-3xl font-bold text-gray-900">65%</span>
+                                            <span class="ml-2 text-sm text-gray-500">Complete</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm font-medium text-gray-700">3 days remaining</div>
+                                            <div class="text-sm text-red-600 font-medium">Critical path at risk</div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="h-4 w-full bg-gray-200 rounded-full overflow-hidden">
+                                            <div class="h-4 bg-spiderx-accent rounded-full" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                                        <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                            <div class="text-sm font-medium text-gray-500">Documents</div>
+                                            <div class="flex items-center justify-center mt-1">
+                                                <span class="text-lg font-semibold text-gray-900">12/18</span>
+                                                <span class="ml-1 text-sm text-gray-500">completed</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                            <div class="text-sm font-medium text-gray-500">Technical</div>
+                                            <div class="flex items-center justify-center mt-1">
+                                                <span class="text-lg font-semibold text-gray-900">85%</span>
+                                                <span class="ml-1 text-sm text-gray-500">complete</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                            <div class="text-sm font-medium text-gray-500">Financial</div>
+                                            <div class="flex items-center justify-center mt-1">
+                                                <span class="text-lg font-semibold text-gray-900">70%</span>
+                                                <span class="ml-1 text-sm text-gray-500">complete</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                            <div class="text-sm font-medium text-gray-500">Compliance</div>
+                                            <div class="flex items-center justify-center mt-1">
+                                                <span class="text-lg font-semibold text-text-gray-900">50%</span>
+                                                <span class="ml-1 text-sm text-gray-500">complete</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5">
+                                        <div class="rounded-md bg-blue-50 p-4">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h3 class="text-sm font-medium text-blue-800">AI Agent Assessment</h3>
+                                                    <div class="mt-2 text-sm text-blue-700">
+                                                        <p>Based on current progress and team response times, there is a <strong>78% probability</strong> of meeting the submission deadline. Critical blockers have been identified and escalated to management. AI agent is now operating in accelerated intervention mode to ensure timely completion.</p>
+                                                    </div>
+                                                    <div class="mt-3 flex">
+                                                        <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Activate Emergency Protocol</button>
+                                                        <button type="button" class="ml-3 inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">View Critical Path</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Responsiveness Tracking (simplified) -->
+                        <div class="mt-8 bg-white shadow overflow-hidden sm:rounded-lg mb-6">
+                            <div class="px-4 py-5 border-b border-gray-200 sm:px-6 flex justify-between items-center">
+                                <div>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900 flex items-center">
+                                        <svg class="mr-2 h-5 w-5 text-spiderx-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>Team Responsiveness Tracking
+                                    </h3>
+                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">AI agent monitors team members' response times to ensure timely delivery</p>
+                                </div>
+                                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    <svg class="-ml-1 mr-1.5 h-4 w-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                    </svg>7/8 Team Members Active Today
+                                </span>
+                            </div>
+                            <div class="px-4 py-5 sm:p-6">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Team Member</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response Time</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tasks Assigned</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completion Rate</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">AI Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                                                            <span class="font-medium text-red-600">SL</span>
+                                                        </div>
+                                                        <div class="ml-4">
+                                                            <div class="text-sm font-medium text-gray-900">Sarah Lin</div>
+                                                            <div class="text-sm text-gray-500">Executive Summary Lead</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-red-600 font-medium">18+ hours</div>
+                                                    <div class="text-xs text-gray-500">Average: 2.5 hours</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="text-sm text-gray-900">4 tasks</div>
+                                                    <div class="text-xs text-gray-500">1 critical</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <div class="w-16 bg-gray-200 rounded-full h-2">
+                                                            <div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div>
+                                                        </div>
+                                                        <span class="ml-2 text-sm text-gray-500">75%</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Unresponsive</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-spiderx-accent">
+                                                    <button class="text-sm font-medium text-spiderx-accent hover:text-blue-800">Escalated to Management</button>
+                                                </td>
+                                            </tr>
+                                            <!-- More team members would be here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-6 text-center">
+                                    <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                        View All Team Members
+                                        <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI Agent Decision Log -->
+                        <div class="bg-spiderx bg-opacity-5 p-4 rounded-lg border border-spiderx-accent shadow-sm mb-8">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-spiderx-accent">
+                                        <span class="font-bold text-white">AI</span>
+                                    </span>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-medium text-gray-900">AI Agent Decision Summary</h3>
+                                    <p class="text-sm text-gray-500">Latest autonomous decisions to drive tender completion</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 pl-14">
+                                <div class="text-sm text-gray-700">
+                                    <p>Based on current progress analysis, I've taken the following actions to ensure tender completion:</p>
+                                    <ul class="mt-2 space-y-2 list-disc pl-5">
+                                        <li>Escalated executive summary completion to management as the critical blocker</li>
+                                        <li>Auto-generated templates for security compliance documentation to accelerate completion</li>
+                                        <li>Scheduled an urgent final review meeting for tomorrow with all stakeholders</li>
+                                        <li>Prioritized financial and technical document completion based on remaining time</li>
+                                        <li>Increased communication frequency with team members showing delayed responses</li>
+                                    </ul>
+                                    <p class="mt-3">Current completion probability is <span class="font-medium">78%</span>. I'm monitoring all critical paths 24/7 and will intervene as needed to ensure successful submission by the deadline.</p>
+                                </div>
+                                <div class="mt-4 flex">
+                                    <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">Adjust AI Priorities</button>
+                                    <button type="button" class="ml-3 inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">Review Full Decision Log</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
+														
+														
+														
+														

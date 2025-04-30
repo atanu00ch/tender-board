@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderX | TenderAI Company Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .bg-spiderx {
+            background-color: #121D33;
+        }
+        .text-spiderx {
+            color: #121D33;
+        }
+        .bg-spiderx-accent {
+            background-color: #2F80ED;
+        }
+        .text-spiderx-accent {
+            color: #2F80ED;
+        }
+        .hover-translate {
+            transition: transform 0.2s;
+        }
+        .hover-translate:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-spiderx">
+                <div class="flex items-center justify-center h-16 px-4">
+                    <div class="flex items-center">
+                        <svg class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 12C14 14.2091 12.2091 16 10 16C7.79086 16 6 14.2091 6 12C6 9.79086 7.79086 8 10 8C12.2091 8 14 9.79086 14 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 4L17.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 20L17.5 21.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 20L6.5 21.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 4L6.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 12H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3V2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 22V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="ml-2 text-white text-lg font-bold tracking-tight">SpiderX | TenderAI</span>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
+                    <div class="flex-grow flex flex-col">
+                        <nav class="flex-1 px-2 space-y-2 bg-spiderx">
+                            <a href="dashboard.html" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                                Dashboard
+                            </a>
+                            <a href="Active_Tenders.html" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a historic 2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                                Active Tenders
+                            </a>
+                            <a href="#" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Tender Scanner
+                            </a>
+                            <a href="tender-board.html" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg>
+                                Task Board
+                            </a>
+                            <a href="#" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                Team Management
+                            </a>
+                            <a href="#" class="bg-spiderx-accent text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                Company Profile
+                            </a>
+                            <a href="#" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                                Analytics
+                            </a>
+                            <a href="#" class="text-gray-300 hover:bg-gray-800 hover:text-white group flex items-center px-3 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Settings
+                            </a>
+                        </nav>
+                    </div>
+                    <!-- AI Agent Profile -->
+                    <div class="px-3 mt-6">
+                        <div class="flex items-center px-2 py-3 bg-gray-800 rounded-lg">
+                            <div class="flex-shrink-0">
+                                <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-spiderx-accent">
+                                    <span class="font-bold text-white">AI</span>
+                                </span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-white">TenderAI Agent</p>
+                                <p class="text-xs text-gray-300">Active & Monitoring</p>
+                            </div>
+                            <div class="ml-2">
+                                <span class="flex h-3 w-3">
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-400">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex flex-col w-0 flex-1 overflow-hidden">
+            <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                <button class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:bg-gray-100 focus:text-gray-600 md:hidden">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <div class="flex-1 px-4 flex justify-between">
+                    <div class="flex-1 flex">
+                        <div class="max-w-lg w-full lg:max-w-xs">
+                            <label for="search" class="sr-only">Search</label>
+                            <div class="relative text-gray-400 focus-within:text-gray-600">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input id="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-blue-300 focus:shadow-outline-blue sm:text-sm transition duration-150 ease-in-out" placeholder="Search documents, certifications..." type="search">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-spiderx-accent focus:outline-none focus:text-spiderx-accent">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </button>
+                        <!-- Profile dropdown -->
+                        <div class="ml-3 relative">
+                            <div>
+                                <button class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-spiderx">
+                                        <span class="font-medium leading-none text-white">MS</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
+                <div class="pt-2 pb-6 md:py-6">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center">
+                                    <h1 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+                                        Company Profile
+                                    </h1>
+                                    <div class="ml-4">
+                                        <select id="profile-select" name="profile-select" class="text-sm rounded-md border-gray-300 shadow-sm focus:border-spiderx-accent focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                            <option value="primary" selected>SpiderX Technologies (Primary)</option>
+                                            <option value="solutions">SpiderX Solutions Pte Ltd</option>
+                                            <option value="international">SpiderX International Ltd</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Manage company information used for tender application & matching
+                                </p>
+                            </div>
+                            <div class="mt-4 flex md:mt-0 md:ml-4">
+                                <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                    <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                    </svg>
+                                    Export Profile
+                                </button>
+                                <button type="button" class="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                    <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                    Create New Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <!-- Profile Completion Status -->
+                        <div class="mt-6">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="px-4 py-5 sm:px-6 flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Profile Completion Status
+                                        </h3>
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            A complete profile improves your tender matching results
+                                        </p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="flex items-center">
+                                            <span class="text-2xl font-bold text-spiderx-accent">87%</span>
+                                            <svg class="ml-2 h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                            </svg>
+                                        </div>
+                                        <p class="text-sm text-gray-500">Profile strength</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-5 sm:p-6">
+                                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <h4 class="text-sm font-medium text-gray-500">Corporate Info</h4>
+                                            <div class="mt-2 flex items-center">
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%"></div>
+                                                </div>
+                                                <span class="ml-2 text-sm font-medium text-gray-700">100%</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <h4 class="text-sm font-medium text-gray-500">Financial Data</h4>
+                                            <div class="mt-2 flex items-center">
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 90%"></div>
+                                                </div>
+                                                <span class="ml-2 text-sm font-medium text-gray-700">90%</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <h4 class="text-sm font-medium text-gray-500">Experience & Projects</h4>
+                                            <div class="mt-2 flex items-center">
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 80%"></div>
+                                                </div>
+                                                <span class="ml-2 text-sm font-medium text-gray-700">80%</span>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <h4 class="text-sm font-medium text-gray-500">Certifications</h4>
+                                            <div class="mt-2 flex items-center">
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 65%"></div>
+                                                </div>
+                                                <span class="ml-2 text-sm font-medium text-gray-700">65%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6">
+                                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
+                                            <div class="flex">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-sm text-blue-700">
+                                                        <span class="font-medium">AI Recommendation:</span> Complete missing certifications to improve matching for government tenders.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Corporate Information Section -->
+                        <div class="mt-8">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                                    <div>
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Corporate Information
+                                        </h3>
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            Basic company details used in tender applications
+                                        </p>
+                                    </div>
+                                    <button type="button" class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                        <svg class="-ml-1 mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                        Edit
+                                    </button>
+                                </div>
+                                <div class="border-t border-gray-200">
+                                    <dl>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Legal Company Name
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                SpiderX Technologies Pte Ltd
+                                            </dd>
+                                        </div>
+                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Registration Number
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                202012345A
+                                            </dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Company Type
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                Private Limited Company
+                                            </dd>
+                                        </div>
+                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Incorporation Date
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                January 15, 2020
+                                            </dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Registered Address
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                10 Marina Boulevard, #25-01, Marina Bay Financial Centre Tower 2, Singapore 018983
+                                            </dd>
+                                        </div>
+                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Industry Classification
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800 mr-2">Information Technology</span>
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800 mr-2">Software Development</span>
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">Artificial Intelligence</span>
+                                            </dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Financial Information Section -->
+                        <div class="mt-8">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                                    <div>
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Financial Information
+                                        </h3>
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            Financial data required for tender eligibility
+                                        </p>
+                                    </div>
+                                    <button type="button" class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                        <svg class="-ml-1 mr-1 h-4 w-4" fill="none" viewBox="0 0 24
+
+ 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                        Edit
+                                    </button>
+                                </div>
+                                <div class="border-t border-gray-200">
+                                    <dl>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Annual Turnover (Last 3 Years)
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                <div class="flex items-center">
+                                                    <span class="font-medium">2024:</span>
+                                                    <span class="ml-2">$4,850,000 SGD</span>
+                                                    <svg class="ml-2 h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex items-center mt-1">
+                                                    <span class="font-medium">2023:</span>
+                                                    <span class="ml-2">$3,250,000 SGD</span>
+                                                    <svg class="ml-2 h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex items-center mt-1">
+                                                    <span class="font-medium">2022:</span>
+                                                    <span class="ml-2">$2,100,000 SGD</span>
+                                                    <svg class="ml-2 h-4 w-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                                    </svg>
+                                                </div>
+                                            </dd>
+                                        </div>
+                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Net Worth
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                $5,800,000 SGD (as of December 31, 2024)
+                                            </dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Banking Details
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                <div class="flex items-center">
+                                                    <span class="font-medium">Primary Bank:</span>
+                                                    <span class="ml-2">DBS Bank Ltd.</span>
+                                                </div>
+                                                <div class="flex items-center mt-1">
+                                                    <span class="font-medium">Account Type:</span>
+                                                    <span class="ml-2">Corporate Current Account</span>
+                                                </div>
+                                                <div class="mt-1 text-sm text-gray-500">
+                                                    Full banking details are secured and will be provided during tender submission
+                                                </div>
+                                            </dd>
+                                        </div>
+                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">
+                                                Financial Documents
+                                            </dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                <ul class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                                        <div class="w-0 flex-1 flex items-center">
+                                                            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                            <span class="ml-2 flex-1 w-0 truncate">
+                                                                audited_financial_statements_2024.pdf
+                                                            </span>
+                                                        </div>
+                                                        <div class="ml-4 flex-shrink-0">
+                                                            <a href="#" class="font-medium text-spiderx-accent hover:text-blue-500">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                                        <div class="w-0 flex-1 flex items-center">
+                                                            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                            <span class="ml-2 flex-1 w-0 truncate">
+                                                                bank_reference_letter_2024.pdf
+                                                            </span>
+                                                        </div>
+                                                        <div class="ml-4 flex-shrink-0">
+                                                            <a href="#" class="font-medium text-spiderx-accent hover:text-blue-500">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                    <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                                        <div class="w-0 flex-1 flex items-center">
+                                                            <svg class="flex-shrink-0 h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                            <span class="ml-2 flex-1 w-0 truncate">
+                                                                financial_capacity_statement.pdf
+                                                            </span>
+                                                        </div>
+                                                        <div class="ml-4 flex-shrink-0">
+                                                            <a href="#" class="font-medium text-spiderx-accent hover:text-blue-500">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </dd>
+                                        </div>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Certifications Section -->
+                        <div class="mt-8">
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
+                                    <div>
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            Certifications
+                                        </h3>
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            Industry certifications to boost tender eligibility
+                                        </p>
+                                    </div>
+                                    <button type="button" class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                        <svg class="-ml-1 mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                        Add Certification
+                                    </button>
+                                </div>
+                                <div class="border-t border-gray-200 px-4 py-5 sm:p-6">
+                                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                        <!-- Existing Certification -->
+                                        <div class="bg-white p-4 rounded-lg shadow-sm hover-translate">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <svg class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <div class="ml-3">
+                                                        <h4 class="text-base font-medium text-gray-900">IMDA SG:D Spark</h4>
+                                                        <p class="text-sm text-gray-500">Singapore Digital Industry Award</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <p class="text-xs text-gray-500">Valid Until</p>
+                                                    <p class="text-sm font-medium text-gray-900">Mar 10, 2026</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <a href="#" class="text-sm font-medium text-spiderx-accent hover:text-blue-700">
+                                                    View Certificate →
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- Missing Certification - AI Recommendation -->
+                                        <div class="bg-yellow-50 p-4 rounded-lg border border-dashed border-yellow-300 hover-translate">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center">
+                                                    <svg class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <div class="ml-3">
+                                                        <h4 class="text-base font-medium text-gray-900">Singapore MTCS Certification</h4>
+                                                        <p class="text-sm text-gray-500">Multi-Tier Cloud Security Standard</p>
+                                                    </div>
+                                                </div>
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                    Recommended
+                                                </span>
+                                            </div>
+                                            <div class="mt-4">
+                                                <p class="text-sm text-gray-600">
+                                                    <span class="font-medium text-spiderx-accent">AI Suggestion:</span> This certification is required for Singapore government cloud service tenders. Adding this certification would improve your eligibility for upcoming tenders.
+                                                </p>
+                                            </div>
+                                            <div class="mt-4">
+                                                <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                                    Start Certification Process
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Profile Enhancement Section -->
+                        <div class="mt-8 mb-6">
+                            <div class="bg-spiderx bg-opacity-5 shadow overflow-hidden sm:rounded-lg border border-spiderx-accent">
+                                <div class="px-4 py-5 sm:px-6 flex items-center">
+                                    <svg class="h-8 w-8 text-spiderx-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                    <div class="ml-3">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                            TenderAI Profile Enhancement
+                                        </h3>
+                                        <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                                            AI-powered suggestions to improve your tender success rate
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+                                    <ul class="space-y-4">
+                                        <li class="bg-white p-4 rounded-lg shadow-sm">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="text-sm font-medium text-gray-900">Apply for Singapore GeBIZ Supplier Registration</h4>
+                                                    <p class="mt-1 text-sm text-gray-600">Being a registered supplier on GeBIZ would increase your visibility for Singapore government tenders by 78%.</p>
+                                                    <button type="button" class="mt-2 text-sm font-medium text-spiderx-accent hover:text-blue-700">
+                                                        Start Registration Process →
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="bg-white p-4 rounded-lg shadow-sm">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="text-sm font-medium text-gray-900">Update project case studies with specific ROI metrics</h4>
+                                                    <p class="mt-1 text-sm text-gray-600">Tenders with quantifiable ROI metrics in case studies have a 45% higher success rate. AI has detected that your case studies could include more specific metrics.</p>
+                                                    <button type="button" class="mt-2 text-sm font-medium text-spiderx-accent hover:text-blue-700">
+                                                        Generate ROI Template →
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="bg-white p-4 rounded-lg shadow-sm">
+                                            <div class="flex items-start">
+                                                <div class="flex-shrink-0">
+                                                    <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-3">
+                                                    <h4 class="text-sm font-medium text-gray-900">Add key personnel profiles for technical expertise</h4>
+                                                    <p class="mt-1 text-sm text-gray-600">Based on upcoming tenders, adding detailed profiles of your technical experts in AI and cybersecurity would strengthen your submissions.</p>
+                                                    <button type="button" class="mt-2 text-sm font-medium text-spiderx-accent hover:text-blue-700">
+                                                        Add Personnel Profiles →
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="mt-6 text-center">
+                                        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-spiderx-accent hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-spiderx-accent">
+                                            Apply All AI Enhancements
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

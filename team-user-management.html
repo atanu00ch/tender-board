@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderX | Team Management</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #1a56db;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            color: #6b7280;
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+        }
+        .team-member {
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: #4b5563;
+            margin-right: 0.75rem;
+        }
+        .avatar.ai {
+            background-color: #2F80ED;
+            color: white;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .badge-blue {
+            background-color: #e1effe;
+            color: #1e40af;
+        }
+        .badge-green {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .badge-gray {
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+        .actions-cell {
+            text-align: right;
+        }
+        .action-button {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+        .action-button:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.25rem;
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            min-width: 180px;
+            z-index: 10;
+            display: none;
+        }
+        .dropdown-menu.active {
+            display: block;
+        }
+        .dropdown-item {
+            display: block;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            color: #374151;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .dropdown-item:hover {
+            background-color: #f9fafb;
+        }
+        .dropdown-divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 0.25rem 0;
+        }
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        .status-active {
+            background-color: #10b981;
+        }
+        .status-inactive {
+            background-color: #6b7280;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 20px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb;
+            border-radius: 34px;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2F80ED;
+        }
+        input:checked + .slider:before {
+            transform: translateX(16px);
+        }
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        .modal {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .modal-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .modal-body {
+            padding: 1.5rem;
+        }
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #2F80ED;
+            border-color: #2F80ED;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #2F80ED;
+            border-color: #2F80ED;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .checkbox-label {
+            margin-left: 0.75rem;
+            font-size: 0.875rem;
+        }
+        .required-asterisk {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+        .user-roles-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .role-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background-color: #f3f4f6;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            color: #4b5563;
+        }
+        .role-tag button {
+            margin-left: 0.25rem;
+            color: #9ca3af;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            line-height: 1;
+            padding: 0 0.125rem;
+        }
+        .role-tag button:hover {
+            color: #6b7280;
+        }
+        .checkbox-tile {
+            display: flex;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .checkbox-tile:hover {
+            background-color: #f9fafb;
+        }
+        .checkbox-tile.selected {
+            border-color: #2F80ED;
+            background-color: #eff6ff;
+        }
+        .checkbox-tile-input {
+            margin-right: 0.75rem;
+        }
+        .checkbox-tile-body {
+            flex: 1;
+        }
+        .checkbox-tile-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .checkbox-tile-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+        .tab {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+        .tab.active {
+            color: #2F80ED;
+            border-bottom-color: #2F80ED;
+        }
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+        .section-divider-text {
+            padding: 0 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .quick-action-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 100;
+            width: 540px;
+            max-width: 90vw;
+        }
+        .quick-action-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .quick-action-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .quick-action-close {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+        .quick-action-close:hover {
+            color: #4b5563;
+        }
+        .quick-action-body {
+            padding: 1.5rem;
+        }
+        .quick-action-footer {
+            padding: 1rem 1.5rem;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        .search-input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .user-info {
+            font-weight: 500;
+        }
+        .user-email {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        .status-text {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Team Management</h1>
+                <p class="subtitle">Manage team members and their roles for tender projects</p>
+            </div>
+            <button class="btn btn-primary" id="addUserBtn" aria-label="Add new user">
+                <svg style="margin-right: 0.5rem; height: 1rem; width: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Add New User
+            </button>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="tabs" role="tablist">
+                    <div class="tab active" role="tab" aria-selected="true">Team Members (12)</div>
+                    <div class="tab" role="tab" aria-selected="false">Pending Invitations (3)</div>
+                    <div class="tab" role="tab" aria-selected="false">Role Management</div>
+                </div>
+                <div>
+                    <input type="text" class="search-input" placeholder="Search users..." aria-label="Search users">
+                </div>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 35%;">User</th>
+                            <th style="width: 20%;">Role</th>
+                            <th style="width: 15%;">Access Level</th>
+                            <th style="width: 15%;">Status</th>
+                            <th style="width: 15%;">Actions</th>
+                        </tr>
+                    </thead rank=rank-1">AI Agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="avatar ai">AI</div>
+                                        <div>
+                                            <div class="user-info">TenderAI Agent</div>
+                                            <div class="user-email">ai.agent@spiderx.ai</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-blue">System Agent</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-green">Administrator</span>
+                                </td>
+                                <td>
+                                    <div class="status-text">
+                                        <span class="status-indicator status-active"></span>
+                                        <span>Active</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="dropdown">
+                                        <button class="action-button" aria-label="More actions for TenderAI Agent" aria-haspopup="true">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                <path d="M8 2C8.55228 2 9 1.55228 9 1C9 0.447715 8.55228 0 8 0C7.44772 0 7 0.447715 7 1C7 1.55228 7.44772 2 8 2Z" fill="currentColor"/>
+                                                <path d="M8 9C8.55228 9 9 8.55229 9 8C9 7.44771 8.55228 7 8 7C7.44772 7 7 7.44771 7 8C7 8.55229 7.44772 9 8 9Z" fill="currentColor"/>
+                                                <path d="M9 15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15C7 14.4477 7.44772 14 8 14C8 -6h6m-6 0H6" />
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">Edit</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="avatar">MS</div>
+                                        <div>
+                                            <div class="user-info">Morgan Smith</div>
+                                            <div class="user-email">morgan@spiderx.ai</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-blue">Team Lead</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-green">Administrator</span>
+                                </td>
+                                <td>
+                                    <div class="status-text">
+                                        <span class="status-indicator status-active"></span>
+                                        <span>Active</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="dropdown">
+                                        <button class="action-button" aria-label="More actions for Morgan Smith" aria-haspopup="true">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                <path d="M8 2C8.55228 2 9 1.55228 9 1C9 0.447715 8.55228 0 8 0C7.44772 0 7 0.447715 7 1C7 1.55228 7.44772 2 8 2Z" fill="currentColor"/>
+                                                <path d="M8 9C8.55228 9 9 8.55229 9 8C9 7.44771 8.55228 7 8 7C7.44772 7 7 7.44771 7 8C7 8.55229 7.44772 9 8 9Z" fill="currentColor"/>
+                                                <path d="M9 15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15C7 14.4477 7.44772 14 8 14C8.55228 14 9 14.4477 9 15Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">Edit</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="avatar">AR</div>
+                                        <div>
+                                            <div class="user-info">Alex Rodriguez</div>
+                                            <div class="user-email">alex@spiderx.ai</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-blue">Tender Manager</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-green">Administrator</span>
+                                </td>
+                                <td>
+                                    <div class="status-text">
+                                        <span class="status-indicator status-active"></span>
+                                        <span>Active</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="dropdown">
+                                        <button class="action-button" aria-label="More actions for Alex Rodriguez" aria-haspopup="true">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                <path d="M8 2C8.55228 2 9 1.55228 9 1C9 0.447715 8.55228 0 8 0C7.44772 0 7 0.447715 7 1C7 1.55228 7.44772 2 8 2Z" fill="currentColor"/>
+                                                <path d="M8 9C8.55228 9 9 8.55229 9 8C9 7.44771 8.55228 7 8 7C7.44772 7 7 7.44771 7 8C7 8.55229 7.44772 9 8 9Z" fill="currentColor"/>
+                                                <path d="M9 15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15C7 14.4477 7.44772 14 8 14C8.55228 14 9 14.4477 9 15Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">Edit</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="avatar">JP</div>
+                                        <div>
+                                            <div class="user-info">Jamie Peters</div>
+                                            <div class="user-email">jamie@spiderx.ai</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-blue">Document Specialist</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-gray">Standard</span>
+                                </td>
+                                <td>
+                                    <div class="status-text">
+                                        <span class="status-indicator status-active"></span>
+                                        <span>Active</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="dropdown">
+                                        <button class="action-button" aria-label="More actions for Jamie Peters" aria-haspopup="true">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                <path d="M8 2C8.55228 2 9 1.55228 9 1C9 0.447715 8.55228 0 8 0C7.44772 0 7 0.447715 7 1C7 1.55228 7.44772 2 8 2Z" fill="currentColor"/>
+                                                <path d="M8 9C8.55228 9 9 8.55229 9 8C9 7.44771 8.55228 7 8 7C7.44772 7 7 7.44771 7 8C7 8.55229 7.44772 9 8 9Z" fill="currentColor"/>
+                                                <path d="M9 15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15C7 14.4477 7.44772 14 8 14C8.55228 14 9 14.4477 9 15Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">Edit</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="avatar">KL</div>
+                                        <div>
+                                            <div class="user-info">Kai Lee</div>
+                                            <div class="user-email">kai@spiderx.ai</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-blue">Technical Specialist</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-gray">Standard</span>
+                                </td>
+                                <td>
+                                    <div class="status-text">
+                                        <span class="status-indicator status-active"></span>
+                                        <span>Active</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="dropdown">
+                                        <button class="action-button" aria-label="More actions for Kai Lee" aria-haspopup="true">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                <path d="M8 2C8.55228 2 9 1.55228 9 1C9 0.447715 8.55228 0 8 0C7.44772 0 7 0.447715 7 1C7 1.55228 7.44772 2 8 2Z" fill="currentColor"/>
+                                                <path d="M8 9C8.55228 9 9 8.55229 9 8C9 7.44771 8.55228 7 8 7C7.44772 7 7 7.44771 7 8C7 8.55229 7.44772 9 8 9Z" fill="currentColor"/>
+                                                <path d="M9 15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15C7 14.4477 7.44772 14 8 14C8.55228 14 9 14.4477 9 15Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">Edit</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="team-member">
+                                        <div class="avatar">SP</div>
+                                        <div>
+                                            <div class="user-info">Sarah Patel</div>
+                                            <div class="user-email">sarah@spiderx.ai</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge badge-blue">Financial Analyst</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-gray">Standard</span>
+                                </td>
+                                <td>
+                                    <div class="status-text">
+                                        <span class="status-indicator status-inactive"></span>
+                                        <span>Away</span>
+                                    </div>
+                                </td>
+                                <td class="actions-cell">
+                                    <div class="dropdown">
+                                        <button class="action-button" aria-label="More actions for Sarah Patel" aria-haspopup="true">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                <path d="M8 2C8.55228 2 9 1.55228 9 1C9 0.447715 8.55228 0 8 0C7.44772 0 7 0.447715 7 1C7 1.55228 7.44772 2 8 2Z" fill="currentColor"/>
+                                                <path d="M8 9C8.55228 9 9 8.55229 9 8C9 7.44771 8.55228 7 8 7C7.44772 7 7 7.44771 7 8C7 8.55229 7.44772 9 8 9Z" fill="currentColor"/>
+                                                <path d="M9 15C9 15.5523 8.55228 16 8 16C7.44772 16 7 15.5523 7 15C7 14.4477 7.44772 14 8 14C8.55228 14 9 14.4477 9 15Z" fill="currentColor"/>
+                                            </svg>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="#" class="dropdown-item">Edit</a>
+                                            <a href="#" class="dropdown-item">Deactivate</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="#" class="dropdown-item">Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Default Assignment Settings</h2>
+                    <p class="card-description">Configure how team members are assigned to new tender opportunities</p>
+                </div>
+                <div class="card-body">
+                    <div class="checkbox-tile selected">
+                        <input type="radio" name="assignment" id="ai-assignment" class="checkbox-tile-input" checked aria-labelledby="ai-assignment-label">
+                        <div class="checkbox-tile-body">
+                            <div class="checkbox-tile-title" id="ai-assignment-label">AI Agent is responsible owner for tender completion</div>
+                            <div class="checkbox-tile-description">TenderAI will manage the entire tender process and assign tasks to team members as needed</div>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-tile">
+                        <input type="radio" name="assignment" id="team-lead-assignment" class="checkbox-tile-input" aria-labelledby="team-lead-assignment-label">
+                        <div class="checkbox-tile-body">
+                            <div class="checkbox-tile-title" id="team-lead-assignment-label">Team Lead is responsible owner for tender completion</div>
+                            <div class="checkbox-tile-description">The designated Team Lead will oversee the tender process with AI assistance</div>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-tile">
+                        <input type="radio" name="assignment" id="custom-assignment" class="checkbox-tile-input" aria-labelledby="custom-assignment-label">
+                        <div class="checkbox-tile-body">
+                            <div class="checkbox-tile-title" id="custom-assignment-label">Custom assignment based on tender criteria</div>
+                            <div class="checkbox-tile-description">Automatically assign ownership based on tender type, value, and complexity</div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-divider">
+                        <span class="section-divider-text">Advanced Settings</span>
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div>
+                            <label for="default-team-size">Default Team Size</label>
+                            <select id="default-team-size" class="form-control" aria-describedby="team-size-description">
+                                <option>Minimal (2-3 members)</option>
+                                <option selected>Standard (4-6 members)</option>
+                                <option>Extended (7+ members)</option>
+                            </select>
+                            <p class="card-description" id="team-size-description">Default number of team members assigned to each tender</p>
+                        </div>
+                        
+                        <div>
+                            <label for="ai-assistance-level">AI Assistance Level</label>
+                            <select id="ai-assistance-level" class="form-control" aria-describedby="ai-assistance-description">
+                                <option>Basic (Task Management)</option>
+                                <option>Standard (Task Management & Document Generation)</option>
+                                <option selected>Advanced (Full Process Management)</option>
+                            </select>
+                            <p class="card-description" id="ai-assistance-description">Level of AI involvement in tender processes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-balance" checked aria-labelledby="auto-balance-label">
+                        <div class="checkbox-label">
+                            <label for="auto-balance" id="auto-balance-label">Auto-balance workload across team members</label>
+                            <p class="card-description">AI will distribute tasks based on current workload and expertise</p>
+                        </div>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="auto-escalate" checked aria-labelledby="auto-escalate-label">
+                        <div class="checkbox-label">
+                            <label for="auto-escalate" id="auto-escalate-label">Auto-escalate to Team Lead when deadlines are at risk</label>
+                            <p class="card-description">Automatically notify Team Lead when tasks are delayed or at risk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-backdrop" id="addUserModal" style="display: none;">
+            <div class="quick-action-popup" role="dialog" aria-labelledby="add-user-title">
+                <div class="quick-action-header">
+                    <h3 class="quick-action-title" id="add-user-title">Add New Team Member</h3>
+                    <button class="quick-action-close" id="closeModal" aria-label="Close modal">×</button>
+                </div>
+                <div class="quick-action-body">
+                    <form id="add-user-form">
+                        <div class="form-group">
+                            <label for="new-user-name">Full Name <span class="required-asterisk" aria-hidden="true">*</span></label>
+                            <input type="text" id="new-user-name" placeholder="Enter full name" required aria-required="true">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-user-email">Email Address <span class="required-asterisk" aria-hidden="true">*</span></label>
+                            <input type="email" id="new-user-email" placeholder="Enter email address" required aria-required="true">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-user-role">Primary Role <span class="required-asterisk" aria-hidden="true">*</span></label>
+                            <select id="new-user-role" required aria-required="true">
+                                <option value="">Select a role</option>
+                                <option>Team Lead</option>
+                                <option>Tender Manager</option>
+                                <option>Document Specialist</option>
+                                <option>Technical Specialist</option>
+                                <option>Financial Analyst</option>
+                                <option>Legal Advisor</option>
+                                <option>Quality Control</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Additional Roles</label>
+                            <div class="user-roles-list">
+                                <div class="role-tag">Document Reviewer <button type="button" aria-label="Remove Document Reviewer role">×</button></div>
+                                <div class="role-tag"><button type="button" aria-label="Add new role">+ Add Role</button></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-user-access">Access Level <span class="required-asterisk" aria-hidden="true">*</span></label>
+                            <select id="new-user-access" required aria-required="true">
+                                <option>Standard - Can view and edit assigned tenders</option>
+                                <option>Advanced - Can create and manage tenders</option>
+                                <option>Administrator - Full system access</option>
+                            </select>
+                        </div>
+                        
+                        <div class="section-divider">
+                            <span class="section-divider-text">Tender Ownership Settings</span>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="tender-owner-setting" checked aria-labelledby="tender-owner-label">
+                            <div class="checkbox-label">
+                                <label for="tender-owner-setting" id="tender-owner-label">AI Agent remains the responsible owner for tender completion</label>
+                                <p class="card-description">This user will work under AI coordination for all tender processes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notification-preference">Notification Preferences</label>
+                            <select id="notification-preference">
+                                <option>Email only</option>
+                                <option selected>Email and in-app notifications</option>
+                                <option>In-app notifications only</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="quick-action-footer">
+                    <button class="btn btn-secondary" id="cancelAddUser" type="button">Cancel</button>
+                    <button class="btn btn-primary" id="confirmAddUser" type="submit" form="add-user-form">Add Team Member</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Modal functionality
+        const addUserModal = document.getElementById('addUserModal');
+        const addUserBtn = document.getElementById('addUserBtn');
+        const closeModal = document.getElementById('closeModal');
+        const cancelAddUser = document.getElementById('cancelAddUser');
+        const confirmAddUser = document.getElementById('confirmAddUser');
+        const addUserForm = document.getElementById('add-user-form');
+
+        function closeAddUserModal() {
+            addUserModal.style.display = 'none';
+            addUserForm.reset();
+            document.querySelectorAll('.checkbox-tile').forEach(tile => tile.classList.remove('selected'));
+            document.getElementById('ai-assignment').closest('.checkbox-tile').classList.add('selected');
+        }
+
+        addUserBtn.addEventListener('click', () => {
+            addUserModal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', closeAddUserModal);
+        cancelAddUser.addEventListener('click', closeAddUserModal);
+        confirmAddUser.addEventListener('click', () => {
+            if (addUserForm.checkValidity()) {
+                closeAddUserModal();
+                // Add form submission logic here (e.g., API call)
+                alert('Team member added successfully!');
+            } else {
+                addUserForm.reportValidity();
+            }
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === addUserModal) {
+                closeAddUserModal();
+            }
+        });
+
+        // Radio button functionality for checkbox tiles
+        const checkboxTiles = document.querySelectorAll('.checkbox-tile');
+        const assignmentRadios = document.querySelectorAll('input[name="assignment"]');
+
+        assignmentRadios.forEach((radio) => {
+            radio.addEventListener('change', () => {
+                checkboxTiles.forEach(tile => tile.classList.remove('selected'));
+                if (radio.checked) {
+                    radio.closest('.checkbox-tile').classList.add('selected');
+                }
+            });
+        });
+
+        // Dropdown menu functionality
+        const dropdownButtons = document.querySelectorAll('.action-button');
+        dropdownButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const dropdownMenu = button.nextElementSibling;
+                const isOpen = dropdownMenu.classList.contains('active');
+                
+                // Close all dropdowns
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('active');
+                });
+
+                // Toggle the clicked dropdown
+                if (!isOpen) {
+                    dropdownMenu.classList.add('active');
+                }
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

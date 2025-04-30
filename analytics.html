@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpiderX | Analytics Dashboard</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+        }
+        .card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #2F80ED;
+            color: white;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #1a56db;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .badge-blue {
+            background-color: #e1effe;
+            color: #1e40af;
+        }
+        .badge-green {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .badge-orange {
+            background-color: #ffedd5;
+            color: #9a3412;
+        }
+        .badge-red {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .badge-purple {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+        .badge-gray {
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            padding: 1.25rem;
+        }
+        .stat-title {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .stat-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .trend-up {
+            color: #10b981;
+        }
+        .trend-down {
+            color: #ef4444;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+        }
+        .tab {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+        .tab.active {
+            color: #2F80ED;
+            border-bottom-color: #2F80ED;
+        }
+        .chart-container {
+            height: 300px;
+            width: 100%;
+            position: relative;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .progress-value {
+            height: 100%;
+            border-radius: 4px;
+        }
+        .progress-green {
+            background-color: #10b981;
+        }
+        .progress-blue {
+            background-color: #2F80ED;
+        }
+        .progress-orange {
+            background-color: #f59e0b;
+        }
+        .progress-red {
+            background-color: #ef4444;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            color: #6b7280;
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+        }
+        .team-member {
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: #4b5563;
+            margin-right: 0.75rem;
+        }
+        .avatar.ai {
+            background-color: #2F80ED;
+            color: white;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-toggle {
+            padding: 0.5rem 0.75rem;
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .dropdown-toggle svg {
+            margin-left: 0.5rem;
+            height: 1rem;
+            width: 1rem;
+        }
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #e5e7eb;
+        }
+        .section-divider-text {
+            padding: 0 1rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .insights-card {
+            display: flex;
+            padding: 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .insights-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        .insights-blue {
+            background-color: #e1effe;
+            color: #1e40af;
+        }
+        .insights-green {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .insights-orange {
+            background-color: #ffedd5;
+            color: #9a3412;
+        }
+        .insights-content {
+            flex: 1;
+        }
+        .insights-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .insights-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 0.5rem;
+        }
+        /* Custom styles for analytics donut chart */
+        .donut-chart {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        .donut-chart svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .donut-chart .chart-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .donut-chart .chart-subtext {
+            font-size: 0.875rem;
+            font-weight: normal;
+            color: #6b7280;
+        }
+        /* Custom filter button styles */
+        .filter-bar {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-btn {
+            padding: 0.5rem 0.75rem;
+            background-color: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: #374151;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background-color: #f3f4f6;
+            border-color: #9ca3af;
+            color: #111827;
+        }
+        /* Custom chart tooltip styles */
+        .tooltip {
+            position: absolute;
+            background-color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            font-size: 0.875rem;
+            pointer-events: none;
+            z-index: 10;
+            display: none;
+        }
+        .tooltip-label {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .tooltip-value {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+                <h1>Analytics Dashboard</h1>
+                <p class="subtitle">Monitor performance and track tender metrics</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        Last 30 Days
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                </div>
+                <button class="btn btn-primary">
+                    <svg style="margin-right: 0.5rem; height: 1rem; width: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Export Report
+                </button>
+            </div>
+        </div>
+        
+        <!-- KPI Summary Cards -->
+        <div class="grid-4">
+            <div class="card">
+                <div class="stat-card">
+                    <div class="stat-title">Total Tenders</div>
+                    <div class="stat-value">87</div>
+                    <div class="stat-description">
+                        <span class="trend-up">↑ 12.3%</span> from previous period
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="stat-card">
+                    <div class="stat-title">Win Rate</div>
+                    <div class="stat-value">42%</div>
+                    <div class="stat-description">
+                        <span class="trend-up">↑ 5.2%</span> from previous period
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="stat-card">
+                    <div class="stat-title">Total Value (USD)</div>
+                    <div class="stat-value">$4.8M</div>
+                    <div class="stat-description">
+                        <span class="trend-up">↑ 23.7%</span> from previous period
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="stat-card">
+                    <div class="stat-title">Avg. Response Time</div>
+                    <div class="stat-value">4.2 days</div>
+                    <div class="stat-description">
+                        <span class="trend-down">↓ 15.4%</span> from previous period
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Charts Section -->
+        <div class="card">
+            <div class="card-header">
+                <div class="tabs">
+                    <div class="tab active">Tender Performance</div>
+                    <div class="tab">Win Analysis</div>
+                    <div class="tab">Team Activity</div>
+                </div>
+                
+                <div class="filter-bar">
+                    <button class="filter-btn active">All Tenders</button>
+                    <button class="filter-btn">Government</button>
+                    <button class="filter-btn">Commercial</button>
+                    <button class="filter-btn">International</button>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="chart-container">
+                    <!-- SVG for a line chart representing tender performance -->
+                    <svg width="100%" height="100%" viewBox="0 0 800 300">
+                        <!-- Chart grid lines -->
+                        <line x1="50" y1="250" x2="750" y2="250" stroke="#e5e7eb" stroke-width="1" />
+                        <line x1="50" y1="200" x2="750" y2="200" stroke="#e5e7eb" stroke-width="1" />
+                        <line x1="50" y1="150" x2="750" y2="150" stroke="#e5e7eb" stroke-width="1" />
+                        <line x1="50" y1="100" x2="750" y2="100" stroke="#e5e7eb" stroke-width="1" />
+                        <line x1="50" y1="50" x2="750" y2="50" stroke="#e5e7eb" stroke-width="1" />
+                        
+                        <!-- Y-axis labels -->
+                        <text x="40" y="250" text-anchor="end" font-size="12" fill="#6b7280">0</text>
+                        <text x="40" y="200" text-anchor="end" font-size="12" fill="#6b7280">10</text>
+                        <text x="40" y="150" text-anchor="end" font-size="12" fill="#6b7280">20</text>
+                        <text x="40" y="100" text-anchor="end" font-size="12" fill="#6b7280">30</text>
+                        <text x="40" y="50" text-anchor="end" font-size="12" fill="#6b7280">40</text>
+                        
+                        <!-- X-axis labels (months) -->
+                        <text x="100" y="270" text-anchor="middle" font-size="12" fill="#6b7280">Jan</text>
+                        <text x="200" y="270" text-anchor="middle" font-size="12" fill="#6b7280">Feb</text>
+                        <text x="300" y="270" text-anchor="middle" font-size="12" fill="#6b7280">Mar</text>
+                        <text x="400" y="270" text-anchor="middle" font-size="12" fill="#6b7280">Apr</text>
+                        <text x="500" y="270" text-anchor="middle" font-size="12" fill="#6b7280">May</text>
+                        <text x="600" y="270" text-anchor="middle" font-size="12" fill="#6b7280">Jun</text>
+                        <text x="700" y="270" text-anchor="middle" font-size="12" fill="#6b7280">Jul</text>
+                        
+                        <!-- Line for "Total Tenders" -->
+                        <path d="M100,220 L200,200 L300,170 L400,150 L500,130 L600,120 L700,90" fill="none" stroke="#2F80ED" stroke-width="3" />
+                        
+                        <!-- Line for "Won Tenders" -->
+                        <path d="M100,235 L200,225 L300,210 L400,195 L500,175 L600,170 L700,155" fill="none" stroke="#10b981" stroke-width="3" />
+                        
+                        <!-- Data points for "Total Tenders" -->
+                        <circle cx="100" cy="220" r="4" fill="#2F80ED" />
+                        <circle cx="200" cy="200" r="4" fill="#2F80ED" />
+                        <circle cx="300" cy="170" r="4" fill="#2F80ED" />
+                        <circle cx="400" cy="150" r="4" fill="#2F80ED" />
+                        <circle cx="500" cy="130" r="4" fill="#2F80ED" />
+                        <circle cx="600" cy="120" r="4" fill="#2F80ED" />
+                        <circle cx="700" cy="90" r="4" fill="#2F80ED" />
+                        
+                        <!-- Data points for "Won Tenders" -->
+                        <circle cx="100" cy="235" r="4" fill="#10b981" />
+                        <circle cx="200" cy="225" r="4" fill="#10b981" />
+                        <circle cx="300" cy="210" r="4" fill="#10b981" />
+                        <circle cx="400" cy="195" r="4" fill="#10b981" />
+                        <circle cx="500" cy="175" r="4" fill="#10b981" />
+                        <circle cx="600" cy="170" r="4" fill="#10b981" />
+                        <circle cx="700" cy="155" r="4" fill="#10b981" />
+                    </svg>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2F80ED;"></div>
+                        <span>Total Tenders</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #10b981;"></div>
+                        <span>Won Tenders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Detailed Metrics Section -->
+        <div class="grid-2">
+            <!-- Tender Status Distribution -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Tender Status Distribution</h2>
+                        <p class="card-description">Current status of all tenders</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="donut-chart">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#e5e7eb" stroke-width="20" />
+                            <!-- Won segment -->
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#10b981" stroke-width="20" stroke-dasharray="75.4 125.6" />
+                            <!-- Pending segment -->
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f59e0b" stroke-width="20" stroke-dasharray="50.3 150.7" stroke-dashoffset="-75.4" />
+                            <!-- Lost segment -->
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#ef4444" stroke-width="20" stroke-dasharray="37.7 163.3" stroke-dashoffset="-125.7" />
+                            <!-- Draft segment -->
+                            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#6b7280" stroke-width="20" stroke-dasharray="37.7 163.3" stroke-dashoffset="-163.4" />
+                        </svg>
+                        <div class="chart-text">
+                            87<br>
+                            <span class="chart-subtext">Total Tenders</span>
+                        </div>
+                    </div>
+                    
+                    <div class="legend" style="justify-content: center;">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #10b981;"></div>
+                            <span>Won (30%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #f59e0b;"></div>
+                            <span>Pending (20%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #ef4444;"></div>
+                            <span>Lost (35%)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #6b7280;"></div>
+                            <span>Draft (15%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tender by Category -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Tenders by Category</h2>
+                        <p class="card-description">Distribution of tenders across different categories</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span style="font-size: 0.875rem;">Infrastructure</span>
+                            <span style="font-size: 0.875rem; font-weight: 500;">32 tenders (36.8%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-blue" style="width: 36.8%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span style="font-size: 0.875rem;">IT Services</span>
+                            <span style="font-size: 0.875rem; font-weight: 500;">24 tenders (27.6%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-green" style="width: 27.6%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span style="font-size: 0.875rem;">Healthcare</span>
+                            <span style="font-size: 0.875rem; font-weight: 500;">15 tenders (17.2%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-orange" style="width: 17.2%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span style="font-size: 0.875rem;">Education</span>
+                            <span style="font-size: 0.875rem; font-weight: 500;">10 tenders (11.5%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-red" style="width: 11.5%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span style="font-size: 0.875rem;">Other</span>
+                            <span style="font-size: 0.875rem; font-weight: 500;">6 tenders (6.9%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-value" style="width: 6.9%; background-color: #9ca3af;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI-Generated Insights -->
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">TenderAI Insights</h2>
+                    <p class="card-description">AI-generated observations and recommendations</p>
+                </div>
+                <button class="btn btn-secondary">
+                    <svg style="margin-right: 0.5rem; height: 1rem; width: 1rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Refresh Insights
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="insights-card">
+                    <div class="insights-icon insights-green">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                    </div>
+                    <div class="insights-content">
+                        <div class="insights-title">Win Rate Improvement Opportunity</div>
+                        <div class="insights-description">Your win rate in IT Services tenders has increased by 8.3% this quarter. Consider allocating more resources to this high-performing category.</div>
+                    </div>
+                </div>
+                
+                <div class="insights-card">
+                    <div class="insights-icon insights-blue">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div class="insights-content">
+                        <div class="insights-title">Response Time Analysis</div>
+                        <div class="insights-description">Your average response time has decreased by 15.4%, improving your competitiveness. The AI has identified that tenders with response times under 3 days have a 58% higher win rate.</div>
+                    </div>
+                </div>
+                
+                <div class="insights-card">
+                    <div class="insights-icon insights-orange">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </div>
+                    <div class="insights-content">
+                        <div class="insights-title">Risk Alert: Healthcare Sector</div>
+                        <div class="insights-description">Win rates in Healthcare tenders have dropped by 12% compared to last quarter. AI analysis suggests increasing technical specialist involvement during proposal development.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Tenders Table -->
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Recent Tenders</h2>
+                    <p class="card-description">Latest tender activities and their status</p>
+                </div>
+                <button class="btn btn-secondary">
+                    View All Tenders
+                </button>
+            </div>
+            <div class="card-body" style="padding: 0;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 35%;">Tender Name</th>
+                            <th style="width: 15%;">Category</th>
+                            <th style="width: 15%;">Value</th>
+                            <th style="width: 15%;">Status</th>
+                            <th style="width: 20%;">Lead</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">City Metro Network Infrastructure</div>
+                                <div style="font-size: 0.75rem; color: #6b7280;">Submission: May 28, 2025</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">Infrastructure</span>
+                            </td>
+                            <td>$1.2M</td>
+                            <td>
+                                <span class="badge badge-green">Won</span>
+                            </td>
+                            <td>
+                                <div class="team-member">
+                                    <div class="avatar ai">AI</div>
+                                    <div>TenderAI Agent</div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">Regional Hospital IT Modernization</div>
+                                <div style="font-size: 0.75rem; color: #6b7280;">Submission: May 15, 2025</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">Healthcare</span>
+                            </td>
+                            <td>$850K</td>
+                            <td>
+                                <span class="badge badge-orange">Pending</span>
+                            </td>
+                            <td>
+                                <div class="team-member">
+                                    <div class="avatar">AR</div>
+                                    <div>Alex Rodriguez</div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">Government Cloud Migration Services</div>
+                                <div style="font-size: 0.75rem; color: #6b7280;">Submission: May 10, 2025</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">IT Services</span>
+                            </td>
+                            <td>$620K</td>
+                            <td>
+                                <span class="badge badge-orange">Pending</span>
+                            </td>
+                            <td>
+                                <div class="team-member">
+                                    <div class="avatar">MS</div>
+                                    <div>Morgan Smith</div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">University Research Lab Equipment</div>
+                                <div style="font-size: 0.75rem; color: #6b7280;">Submission: May 5, 2025</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">Education</span>
+                            </td>
+                            <td>$430K</td>
+                            <td>
+                                <span class="badge badge-red">Lost</span>
+                            </td>
+                            <td>
+                                <div class="team-member">
+                                    <div class="avatar ai">AI</div>
+                                    <div>TenderAI Agent</div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">Smart City Sensors Deployment</div>
+                                <div style="font-size: 0.75rem; color: #6b7280;">Submission: April 29, 2025</div>
+                            </td>
+                            <td>
+                                <span class="badge badge-blue">Infrastructure</span>
+                            </td>
+                            <td>$980K</td>
+                            <td>
+                                <span class="badge badge-green">Won</span>
+                            </td>
+                            <td>
+                                <div class="team-member">
+                                    <div class="avatar">KL</div>
+                                    <div>Kai Lee</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Team Performance -->
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h2 class="card-title">Team Performance</h2>
+                    <p class="card-description">Comparing performance of team members and AI agent</p>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="grid-2">
+                    <!-- Team Win Rate -->
+                    <div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">AI Agent</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">46% Win Rate</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-blue" style="width: 46%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">Morgan Smith</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">41% Win Rate</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-blue" style="width: 41%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">Alex Rodriguez</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">38% Win Rate</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-blue" style="width: 38%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">Kai Lee</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">44% Win Rate</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-blue" style="width: 44%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tenders Completed -->
+                    <div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">AI Agent</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">28 Tenders</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-green" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">Morgan Smith</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">17 Tenders</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-green" style="width: 42.5%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">Alex Rodriguez</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">21 Tenders</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-green" style="width: 52.5%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-size: 0.875rem;">Kai Lee</span>
+                                <span style="font-size: 0.875rem; font-weight: 500;">14 Tenders</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-value progress-green" style="width: 35%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Simple JavaScript for interactive elements -->
+    <script>
+        // Filter buttons
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Here you would typically filter the data
+                // For this demo, we'll just update the chart title
+                console.log('Filter applied: ' + this.textContent);
+            });
+        });
+        
+        // Tabs
+        const tabs = document.querySelectorAll('.tab');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Here you would typically switch content
+                console.log('Tab switched to: ' + this.textContent);
+            });
+        });
+    </script>
+</body>
+</html>
+                    <div class="insights-icon insights-blue">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
